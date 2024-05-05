@@ -29,8 +29,11 @@ def list_of_circuits(qc, n):
 
 # Creating IBM job for given circuit and backend
 
-def execute_job(circuit, backend, shots):
+def execute_job(circuit, backend, shots, tskip):
     circuit.measure_all()
-    tqc = transpile(circuit, backend)  ## Optional - can skip transpilation
+    if not tskip:
+        tqc = transpile(circuit, backend)  ## Optional - can skip transpilation
+    else:
+        tqc = circuit.copy()
     job = backend.run(tqc, shots=shots)
     return job
